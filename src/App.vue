@@ -74,6 +74,7 @@ export default {
       else {
         let upd_product = this.products[ind];
         upd_product.count.val++;
+        upd_product.total = upd_product.price * upd_product.count.val;
         this.$set(this.products, ind, upd_product);
       }
     },

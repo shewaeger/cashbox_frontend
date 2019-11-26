@@ -1,6 +1,6 @@
 module.exports = {
   assetsDir: 'static',
-  publicPath: undefined,
+  publicPath: '/cashbox/',
   outputDir: undefined,
   runtimeCompiler: undefined,
   productionSourceMap: false,

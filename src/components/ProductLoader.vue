@@ -20,7 +20,8 @@ export default {
                 .then((res) => {
                     let product = res.data;
                     this.$emit('product-found', product);
-                })
+                });
+                this.ean = "";
             }
         }
     }

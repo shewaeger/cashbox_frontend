@@ -3,7 +3,7 @@
 		label="Количество"
 		v-mask="mask"
 		@input="onInput"
-		:value="valueC"
+		:value="valueC.val"
 	>
 	<template v-slot:append>
 		<v-btn @click="onClickUp" text icon color="dark">
@@ -22,27 +22,27 @@ export default {
 		this.valueC = this.value;
 	},
 	props: {
-		value: Number
+		value: Object
 	},	
   name: "number-input",
   data: () => ({
 		mask: "################",
-		valueC: 1
+		valueC: Object
   }),
   methods: {
 	onInput(str) {
 		if(str.length === 0)
-			this.valueC = 0;
-		this.$emit('input', this.valueC)
+			this.valueC.val = 0;
+		this.$emit('input', this.valueC.val)
 	},
 	onClickUp() {
-		this.valueC++;
-		this.$emit('input', this.valueC)
+		this.valueC.val++;
+		this.$emit('input', this.valueC.val)
 	},
 	onClickDown() {
-		if (this.valueC > 0){
-			this.valueC--;
-			this.$emit('input', this.valueC)
+		if (this.valueC.val > 0){
+			this.valueC.val--;
+			this.$emit('input', this.valueC.val)
 		}
 	}
   }

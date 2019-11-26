@@ -21,6 +21,11 @@
           </td>
           <td>{{ product.price }}</td>
           <td>{{ product.total }}</td>
+          <td>
+            <v-btn @click="onProductRemove" text icon color="dark">
+              <v-icon>mdi-close-box</v-icon>
+            </v-btn>
+          </td>
     </tr>
 </template>
 
@@ -42,8 +47,11 @@ export default {
     }),
     methods : {
         onCountChanged(val){
-            this.product.count = val;
+            this.product.count.val = val;
             this.$emit('count-updated', this.product);
+        },
+        onProductRemove(){
+          this.$emit('product-removed', this.product);
         }
     }
 }

@@ -5,7 +5,9 @@
         <span>Opencart</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <product-loader></product-loader>
+      <product-loader
+        @product-found="onProductFound"
+      ></product-loader>
       <v-spacer></v-spacer>
       <template v-if="products.length != 0">
         <span >Всего: {{ total }}</span>
@@ -24,6 +26,7 @@
               <th>Количество</th>
               <th>Цена за шт.</th>
               <th>Всего</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -32,6 +35,7 @@
               :key="product.product_id"
               :value="product"
               @count-updated="onProductUpdated"
+              @product-removed="onProductRemoved"
             >
             </product-in-table>
           </tbody>
@@ -53,10 +57,29 @@ export default {
   }),
   methods: {
 		onProductUpdated(product) {
-			product.total = product.count * product.price;
-			let ind = this.$_.findIndex(this.products, o => o.product_id == product.product_id)
+			product.total = product.count.val * product.price;
+      let ind = this.$_.findIndex(this.products, o => o.product_id == product.product_id)
+      if(ind < 0)
+        return;
 			this.$set(this.products, ind, product);
-		},
+    },
+    onProductFound(product){
+      product.price = -(-product.price);
+      product.count = {val : 1};
+      product.total = product.price;
+      let ind = this.$_.findIndex(this.products, o => o.product_id == product.product_id)
+      if(ind < 0){
+        this.products.push(product);
+      }
+      else {
+        let upd_product = this.products[ind];
+        upd_product.count.val++;
+        this.$set(this.products, ind, upd_product);
+      }
+    },
+    onProductRemoved(product){
+      this.products = this.$_.remove(this.products, o => o.product_id != product.product_id);
+    }
 	},
 	computed: {
 		total() {
